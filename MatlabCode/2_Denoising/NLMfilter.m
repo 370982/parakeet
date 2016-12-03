@@ -6,7 +6,7 @@ function output = NLMfilter(input,t,f,h)
 [m,n]=size(input);
 Output = zeros(m, n);
 input2 = padarray(input,f,'symmetric');    %复制输出边界
-% 生成核权重%%%%%%%%%%%%
+% 生成核权重
 kernel=zeros(2*f+1,1);   
 for d=1:f
     value = 1 / (2 * d + 1)^2;
