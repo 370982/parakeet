@@ -1,12 +1,12 @@
 function output = NLMfilter(input,t,f,h)
- %  input£º´øÔëÊı¾İ
- %  t£ºËÑË÷´°µÄ´óĞ¡ 20
- %  f£ºÏàËÆ¿éÁÚÓò5
- %  h£º¸ßË¹ºËµÄ²ÎÊı3
+ %  inputï¼šå¸¦å™ªæ•°æ®
+ %  tï¼šæœç´¢çª—çš„å¤§å° 20
+ %  fï¼šç›¸ä¼¼å—é‚»åŸŸ5
+ %  hï¼šé«˜æ–¯æ ¸çš„å‚æ•°
 [m,n]=size(input);
 Output = zeros(m, n);
-input2 = padarray(input,f,'symmetric');    %¸´ÖÆÊä³ö±ß½ç
-% Éú³ÉºËÈ¨ÖØ%%%%%%%%%%%%
+input2 = padarray(input,f,'symmetric');    %å¤åˆ¶è¾“å‡ºè¾¹ç•Œ
+% ç”Ÿæˆæ ¸æƒé‡%%%%%%%%%%%%
 kernel=zeros(2*f+1,1);   
 for d=1:f
     value = 1 / (2 * d + 1)^2;
@@ -14,7 +14,7 @@ for d=1:f
         kernel(f+1-i)= kernel(f+1-i) + value ; 
     end
 end
-kernel = kernel / sum(kernel);      %¹éÒ»»¯ºËÈ¨ÖØ
+kernel = kernel / sum(kernel);      %å½’ä¸€åŒ–æ ¸æƒé‡
 
 h0 = h * h;
 for i = 1 : m
@@ -25,26 +25,26 @@ for i = 1 : m
     average = 0;
     weight = 0;
     
-    rmin = max(i1-t, f+1);   %»®¶¨ËÑË÷´°·¶Î§
+    rmin = max(i1-t, f+1);   %åˆ’å®šæœç´¢çª—èŒƒå›´
     rmax = min(i1+t, m+f);
     
     for r = rmin : rmax
-        if (r==i1)       %Óëµ±Ç°Î»ÖÃÖØºÏ
+        if (r==i1)       %ä¸å½“å‰ä½ç½®é‡åˆ
             continue; 
         end;
         W2= input2(r-f:r+f);
         d = sum(sum(kernel.*(W1-W2).*(W1-W2)));
         w=exp(-d/h0);
         
-        if w>wmax        %µ±Ç°Î»ÖÃÊÇ×î´óµÄw
+        if w>wmax        %å½“å‰ä½ç½®æ˜¯æœ€å¤§çš„w
             wmax=w;
         end
         
-        weight = weight + w;               %È¨ÖØÏà¼ÓµÄºÍ
-        average = average + w*input2(r);   %È¨ÖØ³ËÒÔÔªËØÖµÏà¼ÓµÄºÍ
+        weight = weight + w;               %æƒé‡ç›¸åŠ çš„å’Œ
+        average = average + w*input2(r);   %æƒé‡ä¹˜ä»¥å…ƒç´ å€¼ç›¸åŠ çš„å’Œ
     end
     
-    average = average + wmax*input2(i1);   %´¦Àíµ±Ç°Î»ÖÃ
+    average = average + wmax*input2(i1);   %å¤„ç†å½“å‰ä½ç½®
     weight = weight + wmax;
     output(i) = average / weight;
 end   
